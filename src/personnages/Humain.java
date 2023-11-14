@@ -1,14 +1,20 @@
 package personnages;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Humain {
 	    private String nom;
 	    private String boissonFavorite;
 	    private int quantiteArgent;
+	    private List<Humain> memoire;
+	    private static final int CAPACITE_MEMOIRE = 30;
 
 	    public Humain(String nom, String boissonFavorite, int quantiteArgent) {
 	        this.nom = nom;
 	        this.boissonFavorite = boissonFavorite;
 	        this.quantiteArgent = quantiteArgent;
+	        this.memoire = new ArrayList<>();
 	    }
 	    //getteurs
 	    public String getNom() {
@@ -41,4 +47,36 @@ public class Humain {
 	    protected void parler(String texte) {
 	        System.out.println("(" + nom + ") - " + texte);
 	    }
-	}
+	    
+	    public void faireConnaissance(Humain humain) {
+	        direBonjour();
+	        humain.direBonjour();
+
+	        // Ajouter les humains à la mémoire de chacun
+	        enrichirMemoire(humain);
+	        humain.enrichirMemoire(this);
+	    }
+
+		private void enrichirMemoire(Humain newConnaissance) {
+		    if (memoire.size() >= CAPACITE_MEMOIRE) {
+		        oublierAncienAmi();
+		    }
+		    memoire.add(newConnaissance);
+		}
+		
+		private void oublierAncienAmi() {
+		    if (!memoire.isEmpty()) {
+		        Humain oldConnaissance = memoire.remove(0);
+		        System.out.println("(" + nom + ") - J'oublie " + oldConnaissance.getNom() + ". Il y a trop de monde dans ma tête !");
+		    }
+		}
+		
+		public void listerConnaissance() {
+			String message = "(" + nom + ") - Je connais beaucoup de monde dont : ";
+		    for (Humain ami : memoire) {
+		        message += " " + ami.getNom();
+		    System.out.println(message);
+		    }
+		}
+
+}
