@@ -31,5 +31,14 @@ public class Yakuza extends Humain {
         int argent = getArgent() + gain;
         reputation++;
     }
+    
+    @Override
+    public void direBonjour() {
+    	super.direBonjour();
+    	parler("Mon clan est celui de " + clan);
+    }
+	public static void main(String[] args) {
+		Yakuza yaku = new Yakuza("Yaku Le Noir", "whisky", 30, "Warsong");
+		yaku.direBonjour();
+	}
 }
-
